@@ -1,0 +1,11 @@
+{
+  "paths": {
+    "etb_installed_path": "",
+    "etb_appdata_path": ""
+  },
+  "ui": {
+    "dimensions": "1536x864",
+    "appearance_mode": "dark",
+    "color_theme": "dark-blue"
+  }
+}
