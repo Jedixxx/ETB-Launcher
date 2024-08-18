@@ -28,6 +28,7 @@ class ModManagerApp:
         self.ui_manager.load_ui()
 
     def mainloop(self):
+        self.ui_manager.update_loop()
         self.ui_manager.root.mainloop()
 
 
