@@ -7,10 +7,9 @@ ETB_APP_ID = "1943950"
 
 class LaunchGame:
     """
-    Handles launching the game
-
-    Special Cases:
-    -If game is already running restarts game
+    Defines the CTk button which is displayed for launching/closing the game
+    Handles the logic for launching and closing the game
+    Contains custom button states which correlate to the game states
     """
 
     def __init__(self, master, width, height, x, y, text_size):
@@ -32,7 +31,7 @@ class LaunchGame:
 
     def update_button_loop(self):
         prev_running_state = self.running_state
-        self.running_state = self._game_running()
+        self.running_state = self.game_running()
 
         if self.running_state == prev_running_state:
             return
@@ -52,7 +51,7 @@ class LaunchGame:
         subprocess.run(close_command, check=True)
 
     @staticmethod
-    def _game_running():
+    def game_running():
         backrooms_exe = "Backrooms.exe"
         result = subprocess.run(
             ['tasklist', '/FI', f'IMAGENAME eq {backrooms_exe}', '/NH'],

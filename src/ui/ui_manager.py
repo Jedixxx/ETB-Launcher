@@ -1,5 +1,5 @@
 import customtkinter
-from src.ui.components import launch_game
+from src.ui.components import launch_game, version_switcher
 from src.core.config import Config
 
 
@@ -35,3 +35,5 @@ class UIManager:
         launch_button_controller = launch_game.LaunchGame(self.frame, width=400, height=150, x=1000, y=660, text_size=40)
         self.updating_objects.append(launch_button_controller)
 
+        version_switcher_menu = version_switcher.VersionSwitcher(self.frame, width=350, height=50, x=1050, y=600, launch_button_controller=launch_button_controller)
+        self.updating_objects.append(version_switcher_menu)
