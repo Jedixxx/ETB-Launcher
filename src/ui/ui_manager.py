@@ -1,5 +1,5 @@
 import customtkinter
-from src.ui.components import launch_game, version_switcher
+from src.ui.components import launch_game, version_switcher, version_adder
 from src.core.config import Config
 
 
@@ -17,6 +17,7 @@ class UIManager:
         self.root = customtkinter.CTk()
         self.root.geometry(self.config.config_data["ui"]["dimensions"])
         self.root.title("Jedixxx's Mod Manager")
+        self.root.resizable(False, False)
         self.frame = customtkinter.CTkFrame(master=self.root)
         self.updating_objects = []
 
@@ -32,8 +33,13 @@ class UIManager:
                                        font=("Arial", 30, "bold"))
         title.pack(pady=12, padx=10)
 
-        launch_button_controller = launch_game.LaunchGame(self.frame, width=400, height=150, x=1000, y=660, text_size=40)
+        launch_button_controller = launch_game.LaunchGame(master=self.frame, width=400, height=150, x=1000, y=660, text_size=40)
+        launch_button_controller.load()
         self.updating_objects.append(launch_button_controller)
 
-        version_switcher_menu = version_switcher.VersionSwitcher(self.frame, width=350, height=50, x=1050, y=600, launch_button_controller=launch_button_controller)
-        self.updating_objects.append(version_switcher_menu)
+        version_switcher_controller = version_switcher.VersionSwitcher(master=self.frame, width=340, height=50, x=1060, y=600, launch_button_controller=launch_button_controller)
+        version_switcher_controller.load()
+        self.updating_objects.append(version_switcher_controller)
+
+        version_adder_controller = version_adder.VersionAdder(master=self.frame, width=50, height=50, x=1000, y=600, root=self.root)
+        version_adder_controller.load()

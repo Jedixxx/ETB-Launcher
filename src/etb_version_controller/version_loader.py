@@ -1,6 +1,6 @@
 import os
 
-from version_utils import modify_item_hidden_attribute, get_game_folder_version, get_version_from_bytes, \
+from src.etb_version_controller.version_utils import modify_item_hidden_attribute, get_game_folder_version, get_version_from_bytes, \
         are_files_accessible
 from src.core.config import Config
 

@@ -25,9 +25,11 @@ class LaunchGame:
         self.running_state = None
         self.update_function = self.update_button_loop
 
-        self.launch_game_button.place(x=x, y=y)
         self.launch_game_button.bind("<Enter>", self.on_hover)
         self.launch_game_button.bind("<Leave>", self.on_leave)
+
+    def load(self):
+        self.launch_game_button.place(x=self.x, y=self.y)
 
     def update_button_loop(self):
         prev_running_state = self.running_state
