@@ -34,7 +34,7 @@ class UIManager:
                                        font=("Arial", 30, "bold"))
         title.pack(pady=12, padx=10)
 
-        mod_list_controller = mod_list.ModList(master=self.frame, x=1000, y=600)
+        mod_list_controller = mod_list.ModList(master=self.frame)
         mod_list_controller.load()
         self.updating_objects.append(mod_list_controller)
 
