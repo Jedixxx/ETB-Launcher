@@ -9,7 +9,8 @@ class ModList:
     def __init__(self, master):
         self.mod_file_manager = ModFileManager()
 
-        self.deselect_all_button = customtkinter.CTkButton(master, width=100, height=25, text="Deselect All", command=self.deselect_all)
+        self.deselect_all_button = customtkinter.CTkButton(master, width=100, height=25, text="Deselect All",
+                                                           command=self.deselect_all)
 
         self.search_bar = customtkinter.CTkEntry(master, width=400, height=25,
                                                  placeholder_text="Search for Mod")
@@ -24,6 +25,7 @@ class ModList:
                                                 checkbox_height=30)))
 
         self.update_function = self.update_mod_list
+        self.prev_filtered_checkbox_pairs = None
 
     def load(self):
         self.search_bar.place(x=50, y=70)
@@ -39,7 +41,7 @@ class ModList:
             mod_checkbox.pack_forget()
 
         for mod_info in filtered_checkboxes:
-            _, mod_checkbox = mod_info
+            m, mod_checkbox = mod_info
             mod_checkbox.pack(anchor="w", pady=6)
 
     def update_mod_list(self):
@@ -49,14 +51,14 @@ class ModList:
             mod, mod_checkbox = mod_info
 
             # Update for search terms
-            if self.search_bar.get() != "":
-                if self.search_bar.get().lower() not in mod.name.lower():
-                    filtered_checkbox_pairs.remove(mod_info)
-                    continue
+            if self.search_bar.get().lower() not in mod.name.lower():
+                filtered_checkbox_pairs.remove(mod_info)
+                continue
 
             # Prioritise favourites
 
-        if filtered_checkbox_pairs != self.mod_checkbox_pairs:
+        if filtered_checkbox_pairs != self.prev_filtered_checkbox_pairs:
+            self.prev_filtered_checkbox_pairs = filtered_checkbox_pairs
             self.redraw_mod_list(filtered_checkbox_pairs)
 
     def deselect_all(self):
