@@ -6,8 +6,10 @@ from src.file_manager.mod_file_manager import ModFileManager
 
 
 class ModList:
-    def __init__(self, master, x, y):
+    def __init__(self, master):
         self.mod_file_manager = ModFileManager()
+
+        self.deselect_all_button = customtkinter.CTkButton(master, width=100, height=25, text="Deselect All", command=self.deselect_all)
 
         self.search_bar = customtkinter.CTkEntry(master, width=400, height=25,
                                                  placeholder_text="Search for Mod")
@@ -25,6 +27,7 @@ class ModList:
 
     def load(self):
         self.search_bar.place(x=50, y=70)
+        self.deselect_all_button.place(x=570, y=70)
         self.scrollable_mod_list.place(x=50, y=100)
         for mod_info in self.mod_checkbox_pairs:
             _, mod_checkbox = mod_info
@@ -51,13 +54,12 @@ class ModList:
                     filtered_checkbox_pairs.remove(mod_info)
                     continue
 
-            # Update for user movements/deletion of mods
-            if not os.path.isfile(os.path.join("mods", mod.filename)):
-                self.mod_checkbox_pairs.remove(mod_info)  # If mod is missing from mod folder then remove it from list
-                filtered_checkbox_pairs.remove(mod_info)
-                continue
-
-            # Update for filters
+            # Prioritise favourites
 
         if filtered_checkbox_pairs != self.mod_checkbox_pairs:
             self.redraw_mod_list(filtered_checkbox_pairs)
+
+    def deselect_all(self):
+        for mod_info in self.mod_checkbox_pairs:
+            mod, _ = mod_info
+            mod.activated.set(False)
