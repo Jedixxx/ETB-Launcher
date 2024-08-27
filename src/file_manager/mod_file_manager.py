@@ -13,15 +13,14 @@ class Mod:
         self.is_favorite = False
 
 
-
 class ModFileManager:
     def __init__(self):
-        self.config_data = Config().config_data
+        self.config = Config()
         self.loaded_mods = []
 
-        self.etb_mod_folder = os.path.join(self.config_data["paths"]["etb_installed_path"],
+        self.etb_mod_folder = os.path.join(self.config.config_data["paths"]["etb_installed_path"],
                                            r"EscapeTheBackrooms\Content\Paks\~mods")
-        self.local_mod_folder = r"D:\PycharmProjects\ETB Launcher\mods"
+        self.local_mod_folder = os.path.join(self.config.content_root, "mods")
 
     def load_local_mods(self):
         for filename in os.listdir(self.local_mod_folder):

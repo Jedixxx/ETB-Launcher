@@ -1,5 +1,6 @@
 import json
 import os
+import sys
 from typing import Dict, Any
 
 
@@ -18,8 +19,13 @@ class Config:
         if is_path_absolute:
             self.config_path = config_path
         else:
-            content_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
-            self.config_path = os.path.join(content_root, config_path)
+            # Determine if the script is running as an executable or as a .py file
+            if getattr(sys, 'frozen', False):
+                self.content_root = os.path.dirname(sys.executable)
+            else:
+                self.content_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
+
+            self.config_path = os.path.join(self.content_root, config_path)
 
         self.config_data = self._load_config()
 

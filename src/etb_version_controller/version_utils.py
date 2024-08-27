@@ -40,7 +40,7 @@ def modify_item_hidden_attribute(item_path: str, hidden: bool = True):
     else:
         hidden_command = "-H"
     item_path = os.path.abspath(item_path)
-    subprocess.run(['attrib', hidden_command, item_path], check=True)
+    subprocess.run(['attrib', hidden_command, item_path], check=True, creationflags=subprocess.CREATE_NO_WINDOW)
 
 
 def get_game_folder_version(game_folder: str) -> str:

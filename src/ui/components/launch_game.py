@@ -48,12 +48,12 @@ class LaunchGame:
         self._change_state(button_state="Loading")
         self.update_mod_position_function()
         launch_command = [self.steam_exe_path, "-applaunch", ETB_APP_ID]
-        subprocess.run(launch_command, check=True)
+        subprocess.run(launch_command, check=True, creationflags=subprocess.CREATE_NO_WINDOW)
 
     def close_game(self):
         self._change_state(button_state="Closing")
         close_command = [self.steam_exe_path, '+app_stop', ETB_APP_ID]
-        subprocess.run(close_command, check=True)
+        subprocess.run(close_command, check=True, creationflags=subprocess.CREATE_NO_WINDOW)
 
     @staticmethod
     def game_running():
@@ -61,7 +61,8 @@ class LaunchGame:
         result = subprocess.run(
             ['tasklist', '/FI', f'IMAGENAME eq {backrooms_exe}', '/NH'],
             stdout=subprocess.PIPE,
-            text=True
+            text=True,
+            creationflags=subprocess.CREATE_NO_WINDOW
         )
 
         return backrooms_exe.lower() in result.stdout.lower()
