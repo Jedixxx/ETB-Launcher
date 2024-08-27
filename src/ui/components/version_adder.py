@@ -1,5 +1,7 @@
+import os
 import customtkinter
 import tkinter
+import shutil
 from tkinter import filedialog
 
 from src.etb_version_controller.version_loader import VersionLoader
@@ -34,7 +36,8 @@ class VersionAdder:
 
         add_button = customtkinter.CTkButton(add_version_popup, text="Add Version", width=400, height=50,
                                              command=lambda: self.load_local_version(version_path_entry.get(),
-                                                                                     version_entry.get()))
+                                                                                     version_entry.get(),
+                                                                                     add_version_popup))
         add_button.place(x=50, y=140)
 
         browse_button = customtkinter.CTkButton(add_version_popup, text="📁", width=50, height=50, font=("Arial", 30),
@@ -46,8 +49,6 @@ class VersionAdder:
     def browse_for_version_files(version_path_entry, version_entry):
         version_path = filedialog.askdirectory()
         if version_path:
-            # ADD CHECK HERE
-
             version_path_entry.delete(0, customtkinter.END)
             version_path_entry.insert(0, version_path)
 
@@ -56,8 +57,16 @@ class VersionAdder:
                 version_entry.delete(0, customtkinter.END)
                 version_entry.insert(0, f"{detected_version} (Auto-detected)")
 
-    def load_local_version(self, filepath, version):
-        # Need to add CHECKS
+    def load_local_version(self, filepath, version, add_version_popup):
+        if not os.path.isdir(filepath):
+            return
+        if version == "":
+            return
+        if "Backrooms.exe" not in os.listdir(filepath):
+            return
+        if os.path.splitdrive(self.version_loader.etb_installed_path)[0] != os.path.splitdrive(filepath)[0]:
+            return
 
         raw_version = version.replace(" (Auto-detected)", "")
         self.version_loader.load_local_version(filepath, raw_version)
+        add_version_popup.destroy()

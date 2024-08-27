@@ -40,4 +40,3 @@ class Config:
         except FileNotFoundError:
             print(f"No configuration file found at {self.config_path}")
             return {}
-

@@ -1,4 +1,5 @@
 import subprocess
+
 import customtkinter
 from src.core.config import Config
 
@@ -12,17 +13,18 @@ class LaunchGame:
     Contains custom button states which correlate to the game states
     """
 
-    def __init__(self, master, width, height, x, y, text_size):
+    def __init__(self, master, width, height, x, y, text_size, update_mod_position_function):
         self.config = Config()
         self.launch_game_button = customtkinter.CTkButton(master=master, text="Launch Game", width=width, height=height,
                                                           font=("Arial", text_size, "bold"))
-
+        self.master = master
         self.width, self.height = width, height
         self.x, self.y = x, y
 
         self.steam_exe_path = self.config.config_data["paths"]["steam_path"]
 
         self.running_state = None
+        self.update_mod_position_function = update_mod_position_function
         self.update_function = self.update_button_loop
 
         self.launch_game_button.bind("<Enter>", self.on_hover)
@@ -44,6 +46,7 @@ class LaunchGame:
 
     def launch_game(self):
         self._change_state(button_state="Loading")
+        self.update_mod_position_function()
         launch_command = [self.steam_exe_path, "-applaunch", ETB_APP_ID]
         subprocess.run(launch_command, check=True)
 

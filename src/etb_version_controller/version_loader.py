@@ -8,6 +8,7 @@ from src.core.config import Config
 class VersionLoader:
     def __init__(self):
         self.config_data = Config().config_data
+        self.etb_installed_path = self.config_data["paths"]["etb_installed_path"]
 
     def load_local_version(self, game_folder: str, game_folder_version: str):
         version_file_path = os.path.join(game_folder, "version_name.txt")
@@ -22,8 +23,7 @@ class VersionLoader:
     def _centralise_version(self, game_folder: str):
         print("Centralising Version... (This may take a long time)")
         game_version = get_game_folder_version(game_folder)
-        etb_installed_path = self.config_data["paths"]["etb_installed_path"]
-        z_path = os.path.join(os.path.dirname(etb_installed_path), f"z_ETB{game_version}")
+        z_path = os.path.join(os.path.dirname(self.etb_installed_path), f"z_ETB{game_version}")
         os.rename(game_folder,
                   z_path)
         modify_item_hidden_attribute(z_path, True)

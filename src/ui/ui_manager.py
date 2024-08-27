@@ -1,5 +1,5 @@
 import customtkinter
-from src.ui.components import launch_game, version_switcher, version_adder
+from src.ui.components import launch_game, version_switcher, version_adder, mod_list
 from src.core.config import Config
 
 
@@ -20,11 +20,12 @@ class UIManager:
         self.root.resizable(False, False)
         self.frame = customtkinter.CTkFrame(master=self.root)
         self.updating_objects = []
+        self.refresh_time = self.config.config_data["misc"]["refresh_time"]
 
     def update_loop(self):
         for object_to_update in self.updating_objects:
             object_to_update.update_function()
-        self.root.after(1000, self.update_loop)
+        self.root.after(self.refresh_time, self.update_loop)
 
     def load_ui(self):
         self.frame.pack(pady=20, padx=60, fill="both", expand=True)
@@ -33,7 +34,11 @@ class UIManager:
                                        font=("Arial", 30, "bold"))
         title.pack(pady=12, padx=10)
 
-        launch_button_controller = launch_game.LaunchGame(master=self.frame, width=400, height=150, x=1000, y=660, text_size=40)
+        mod_list_controller = mod_list.ModList(master=self.frame, x=1000, y=600)
+        mod_list_controller.load()
+        self.updating_objects.append(mod_list_controller)
+
+        launch_button_controller = launch_game.LaunchGame(master=self.frame, width=400, height=150, x=1000, y=660, text_size=40, update_mod_position_function=mod_list_controller.mod_file_manager.update_mod_positions)
         launch_button_controller.load()
         self.updating_objects.append(launch_button_controller)
 
@@ -43,3 +48,6 @@ class UIManager:
 
         version_adder_controller = version_adder.VersionAdder(master=self.frame, width=50, height=50, x=1000, y=600, root=self.root)
         version_adder_controller.load()
+
+
+
