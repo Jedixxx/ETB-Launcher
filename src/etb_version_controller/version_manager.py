@@ -1,6 +1,6 @@
 import os
 
-from src.etb_version_controller.version_utils import modify_item_hidden_attribute, get_version_from_bytes, get_game_folder_version
+from src.etb_version_controller.version_utils import modify_item_hidden_attribute, get_game_folder_version
 from src.core.config import Config
 
 
@@ -28,8 +28,9 @@ class VersionManager:
                   z_path)
         modify_item_hidden_attribute(z_path, True)
 
-        target_version_folder = self.get_folder_of_target_version(steam_common_folder=os.path.dirname(self.etb_installed_path),
-                                                               target_version=target_version)
+        target_version_folder = self.get_folder_of_target_version(
+            steam_common_folder=os.path.dirname(self.etb_installed_path),
+            target_version=target_version)
         os.rename(target_version_folder, self.etb_installed_path)
         modify_item_hidden_attribute(self.etb_installed_path, False)
 
