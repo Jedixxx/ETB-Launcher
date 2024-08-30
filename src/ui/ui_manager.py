@@ -1,5 +1,5 @@
 import customtkinter
-from src.ui.components import launch_game, version_switcher, version_adder, mod_list
+from src.ui.components import launch_game, version_switcher, version_adder, mod_list, mod_loader_switches
 from src.core.config import Config
 
 
@@ -34,7 +34,7 @@ class UIManager:
                                        font=("Arial", 30, "bold"))
         title.pack(pady=12, padx=10)
 
-        mod_list_controller = mod_list.ModList(master=self.frame)
+        mod_list_controller = mod_list.ModList(master=self.frame, scrollable_width=600, scrollable_height=700, scrollable_x=50, scrollable_y=100)
         mod_list_controller.load()
         self.updating_objects.append(mod_list_controller)
 
@@ -49,5 +49,7 @@ class UIManager:
         version_adder_controller = version_adder.VersionAdder(master=self.frame, width=50, height=50, x=1000, y=600, root=self.root)
         version_adder_controller.load()
 
+        mod_loader_switches_controller = mod_loader_switches.ModLoaderSwitches(master=self.frame, x=708, y=660, width=250, height=150)
+        mod_loader_switches_controller.load()
 
 
