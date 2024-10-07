@@ -1,8 +1,7 @@
 import os
 import subprocess
+from src.ui.components.version_adder import VersionAdder
 from typing import Optional
-
-
 
 
 def modify_item_hidden_attribute(item_path: str, hidden: bool = True):
@@ -16,6 +15,7 @@ def modify_item_hidden_attribute(item_path: str, hidden: bool = True):
 
 def get_game_folder_version(game_folder: str) -> str:
     version_file = os.path.join(game_folder, "version_name.txt")
+
     with open(version_file, 'r') as file:
         return file.readline().strip()
 

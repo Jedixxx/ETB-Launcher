@@ -6,16 +6,20 @@ from src.file_manager.mod_file_manager import ModFileManager
 
 
 class ModList:
-    def __init__(self, master):
+    def __init__(self, master, scrollable_width, scrollable_height, scrollable_x, scrollable_y):
         self.mod_file_manager = ModFileManager()
 
-        self.deselect_all_button = customtkinter.CTkButton(master, width=100, height=25, text="Deselect All",
+        self.scrollable_width = scrollable_width
+        self.scrollable_x = scrollable_x
+        self.scrollable_y = scrollable_y
+
+        self.deselect_all_button = customtkinter.CTkButton(master, width=round(scrollable_width/6), height=25, text="Deselect All",
                                                            command=self.deselect_all)
 
-        self.search_bar = customtkinter.CTkEntry(master, width=400, height=25,
+        self.search_bar = customtkinter.CTkEntry(master, width=round(scrollable_width/1.5), height=25,
                                                  placeholder_text="Search for Mod")
 
-        self.scrollable_mod_list = customtkinter.CTkScrollableFrame(master, width=600, height=700)
+        self.scrollable_mod_list = customtkinter.CTkScrollableFrame(master, width=scrollable_width, height=scrollable_height)
         self.mod_file_manager.load_local_mods()
         self.mod_checkbox_pairs = []
         for mod in self.mod_file_manager.loaded_mods:
@@ -28,9 +32,9 @@ class ModList:
         self.prev_filtered_checkbox_pairs = None
 
     def load(self):
-        self.search_bar.place(x=50, y=70)
-        self.deselect_all_button.place(x=570, y=70)
-        self.scrollable_mod_list.place(x=50, y=100)
+        self.search_bar.place(x=self.scrollable_x, y=self.scrollable_y-30)
+        self.deselect_all_button.place(x=self.scrollable_x+self.scrollable_width-round(self.scrollable_width/6)+10, y=self.scrollable_y-30)
+        self.scrollable_mod_list.place(x=self.scrollable_x, y=self.scrollable_y)
         for mod_info in self.mod_checkbox_pairs:
             _, mod_checkbox = mod_info
             mod_checkbox.pack(anchor="w", pady=6)

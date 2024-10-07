@@ -15,7 +15,7 @@ class ModLoaderSwitches:
         self.title = customtkinter.CTkLabel(master=self.master_widget, text="Mod Loaders",
                                             font=("Arial", 25, "bold"))
 
-        self.ue4ss_switch = customtkinter.CTkSwitch(master=self.master_widget, text="UE4SS", font=("Arial", 20))
+        self.ue4ss_switch = customtkinter.CTkSwitch(master=self.master_widget, text="UE4SS", font=("Arial", 20), state="disabled")
         self.interpose_switch = customtkinter.CTkSwitch(master=self.master_widget, text="Interpose", font=("Arial", 20), command=interpose_manager.switch, variable=interpose_manager.interpose_enabled)
 
     def load(self):
