@@ -23,15 +23,21 @@ class ModFileManager:
         self.local_mod_folder = os.path.join(self.config.content_root, "mods")
 
     def load_local_mods(self):
+        """
+        Ran on app startup to load all local mods into a "loaded_mods" list.
+        """
         for filename in os.listdir(self.local_mod_folder):
             mod_active = os.path.isfile(os.path.join(self.etb_mod_folder, filename))
-            mod_to_add = Mod(filename, mod_active)
-            self.loaded_mods.append(mod_to_add)
+            self.loaded_mods.append(Mod(filename, mod_active))
 
-    def load_new_mod(self, filepath):
+    def load_new_mod(self, filepath: str):
+        """
+        Used during runtime to add a filepath to the local mods folder and to the "loaded_mods" list
+        :param filepath: Filepath of the mod
+        """
         filename = os.path.basename(filepath)
-        mod_to_add = Mod(filename, False)
-        self.loaded_mods.append(mod_to_add)
+        shutil.copy2(filepath, os.path.join(self.etb_mod_folder, filename))
+        self.loaded_mods.append(Mod(filename, False))
 
     def update_mod_positions(self):
         # Creates ~mods folder if needed

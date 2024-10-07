@@ -1,7 +1,5 @@
 import os
 import subprocess
-from src.ui.components.version_adder import VersionAdder
-from typing import Optional
 
 
 def modify_item_hidden_attribute(item_path: str, hidden: bool = True):
