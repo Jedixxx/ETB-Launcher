@@ -20,7 +20,7 @@ class ModFileManager:
         self.loaded_mods = []
 
         self.etb_mod_folder = os.path.join(self.config.config_data["paths"]["etb_installed_path"],
-                                           r"EscapeTheBackrooms\Content\Paks\~mods")
+                                           r"EscapeTheBackrooms\Content\Paks\LogicMods")
         self.local_mod_folder = os.path.join(self.config.content_root, "mods")
 
     def load_local_mods(self):
@@ -41,9 +41,9 @@ class ModFileManager:
         self.loaded_mods.append(Mod(filename, False))
 
     def update_mod_positions(self):
-        # Creates ~mods folder if needed
+        # Creates LogicMods folder if needed
         if not os.path.isdir(self.etb_mod_folder):
-            print("Created ~mods folder")
+            print("Created LogicMods folder")
             os.mkdir(self.etb_mod_folder)
 
         # First reset mods folder
