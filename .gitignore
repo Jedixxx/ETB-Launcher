@@ -1,4 +1,4 @@
 .idea/
-config/
-mods/
-mod_loaders/
+/config/
+/mod_loaders/
+/mods/
