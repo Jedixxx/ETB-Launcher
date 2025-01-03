@@ -49,9 +49,7 @@ class ModFileManager:
         # First reset mods folder
         for filename in os.listdir(self.etb_mod_folder):
             full_path = os.path.join(self.etb_mod_folder, filename)
-            if filename == "Z_Interpose_P.pak":
-                os.remove(full_path)
-            elif filename.endswith(".pak"):
+            if filename.endswith(".pak") and filename != "Z_Interpose_P.pak":
                 if filename in os.listdir(self.local_mod_folder):
                     os.remove(full_path)
                 else:
