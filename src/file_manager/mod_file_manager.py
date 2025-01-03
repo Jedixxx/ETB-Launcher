@@ -1,3 +1,4 @@
+import errno
 import os
 import shutil
 import customtkinter
@@ -45,10 +46,25 @@ class ModFileManager:
             print("Created ~mods folder")
             os.mkdir(self.etb_mod_folder)
 
+        # First reset mods folder
+        for filename in os.listdir(self.etb_mod_folder):
+            full_path = os.path.join(self.etb_mod_folder, filename)
+            if filename == "Z_Interpose_P.pak":
+                os.remove(full_path)
+            elif filename.endswith(".pak"):
+                if filename in os.listdir(self.local_mod_folder):
+                    os.remove(full_path)
+                else:
+                    try:
+                        os.rename(full_path, os.path.join(self.local_mod_folder, filename))
+                    except OSError as e:
+                        if e.errno == errno.EXDEV:
+                            shutil.move(full_path, os.path.join(self.local_mod_folder, filename))
+                        else:
+                            raise
+
         for mod in self.loaded_mods:
-            mod_active = os.path.isfile(os.path.join(self.etb_mod_folder, mod.filename))
-            if mod.activated.get() and not mod_active:
+            if mod.activated.get():
                 shutil.copy2(os.path.join(self.local_mod_folder, mod.filename),
                              os.path.join(self.etb_mod_folder, mod.filename))
-            elif not mod.activated.get() and mod_active:
-                os.remove(os.path.join(self.etb_mod_folder, mod.filename))
+

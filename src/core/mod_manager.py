@@ -16,6 +16,7 @@ Author: [Jedixxx]
 """
 
 from src.ui.ui_manager import UIManager
+from src.core.setup import Setup
 
 
 class ModManagerApp:
@@ -33,5 +34,10 @@ class ModManagerApp:
 
 
 if __name__ == "__main__":
+    setup = Setup()
+    if not setup.is_config_setup():
+        setup.write_config()
+        setup.create_version_name_file()
+
     app = ModManagerApp()
     app.mainloop()

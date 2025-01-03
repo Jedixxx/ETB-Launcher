@@ -12,7 +12,6 @@ class LaunchGame:
     Handles the logic for launching and closing the game
     Contains custom button states which correlate to the game states
     """
-
     def __init__(self, master, width, height, x, y, text_size, update_mod_position_function):
         self.config = Config()
         self.launch_game_button = customtkinter.CTkButton(master=master, text="Launch Game", width=width, height=height,

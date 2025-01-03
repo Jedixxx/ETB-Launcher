@@ -1,10 +1,10 @@
 import os
 import customtkinter
 import tkinter
-import shutil
 from tkinter import filedialog
 
 from src.etb_version_controller.version_loader import VersionLoader
+from src.etb_version_controller.version_utils import get_game_version_from_bytes
 
 
 class VersionAdder:
@@ -52,7 +52,7 @@ class VersionAdder:
             version_path_entry.delete(0, customtkinter.END)
             version_path_entry.insert(0, version_path)
 
-            detected_version = VersionLoader.get_game_version_from_bytes(version_path)
+            detected_version = get_game_version_from_bytes(version_path)
             if detected_version:
                 version_entry.delete(0, customtkinter.END)
                 version_entry.insert(0, f"{detected_version} (Auto-detected)")
