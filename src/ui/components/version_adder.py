@@ -42,12 +42,14 @@ class VersionAdder:
 
         browse_button = customtkinter.CTkButton(add_version_popup, text="📁", width=50, height=50, font=("Arial", 30),
                                                 command=lambda: self.browse_for_version_files(version_path_entry,
-                                                                                              version_entry))
+                                                                                              version_entry, add_version_popup))
         browse_button.place(x=400, y=20)
 
     @staticmethod
-    def browse_for_version_files(version_path_entry, version_entry):
+    def browse_for_version_files(version_path_entry, version_entry, add_version_popup):
         version_path = filedialog.askdirectory()
+        add_version_popup.attributes('-topmost', True)
+        add_version_popup.attributes('-topmost', False)
         if version_path:
             version_path_entry.delete(0, customtkinter.END)
             version_path_entry.insert(0, version_path)
@@ -56,6 +58,7 @@ class VersionAdder:
             if detected_version:
                 version_entry.delete(0, customtkinter.END)
                 version_entry.insert(0, f"{detected_version} (Auto-detected)")
+
 
     def load_local_version(self, filepath, version, add_version_popup):
         if not os.path.isdir(filepath):
