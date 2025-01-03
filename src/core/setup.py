@@ -3,6 +3,7 @@ import sys
 import winreg
 import vdf
 import json
+import time
 
 from src.etb_version_controller.version_utils import get_game_version_from_bytes, modify_item_hidden_attribute
 
@@ -29,8 +30,19 @@ class Setup:
         etb_installed_path = self._get_etb_installed_path(self.steam_path)
         game_version = get_game_version_from_bytes(etb_installed_path)
         version_file_path = os.path.join(etb_installed_path, "version_name.txt")
-        with open(version_file_path, 'w') as file:
-            file.write(game_version)
+        attempts = 0
+        while attempts < 10:
+            try:
+                with open(version_file_path, 'w') as file:
+                    file.write(game_version)
+                    break
+            except PermissionError:
+                if attempts < 10:
+                    attempts += 1
+                    time.sleep(0.05)
+                else:
+                    raise
+
         modify_item_hidden_attribute(version_file_path, True)
 
     def write_config(self):
