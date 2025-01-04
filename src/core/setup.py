@@ -77,9 +77,16 @@ class Setup:
             vdf_data = vdf.load(f)
             for universe in vdf_data["libraryfolders"]:
                 if vdf_data["libraryfolders"][universe]["apps"].get(None, "1943950"):
-                    return os.path.join(vdf_data["libraryfolders"][universe]["path"],
-                                        r"steamapps\common\EscapeTheBackrooms")
+                    etb_installed_path = os.path.join(vdf_data["libraryfolders"][universe]["path"],
+                                                      r"steamapps\common\EscapeTheBackrooms")
+                    if os.path.isfile(os.path.join(etb_installed_path, "Backrooms.exe")):
+                        return etb_installed_path
+
 
     @staticmethod
     def _get_etb_appdata_path():
         return os.path.join(os.getenv("LOCALAPPDATA"), "EscapeTheBackrooms")
+
+
+
+
