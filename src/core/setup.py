@@ -82,11 +82,6 @@ class Setup:
                     if os.path.isfile(os.path.join(etb_installed_path, "Backrooms.exe")):
                         return etb_installed_path
 
-
     @staticmethod
     def _get_etb_appdata_path():
         return os.path.join(os.getenv("LOCALAPPDATA"), "EscapeTheBackrooms")
-
-
-
-
