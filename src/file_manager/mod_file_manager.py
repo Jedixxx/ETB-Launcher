@@ -46,23 +46,33 @@ class ModFileManager:
             print("Created LogicMods folder")
             os.mkdir(self.etb_mod_folder)
 
-        # First reset mods folder
-        for filename in os.listdir(self.etb_mod_folder):
-            full_path = os.path.join(self.etb_mod_folder, filename)
-            if filename.endswith(".pak") and filename != "Z_Interpose_P.pak":
-                if filename in os.listdir(self.local_mod_folder):
-                    os.remove(full_path)
-                else:
-                    try:
-                        os.rename(full_path, os.path.join(self.local_mod_folder, filename))
-                    except OSError as e:
-                        if e.errno == errno.EXDEV:
-                            shutil.move(full_path, os.path.join(self.local_mod_folder, filename))
-                        else:
-                            raise
+        # First reset Paks folder
+        self._explore_and_filter_dir(os.path.dirname(self.etb_mod_folder))
 
         for mod in self.loaded_mods:
             if mod.activated.get():
                 shutil.copy2(os.path.join(self.local_mod_folder, mod.filename),
                              os.path.join(self.etb_mod_folder, mod.filename))
 
+    def _explore_and_filter_dir(self, directory: str):
+        for entry in os.listdir(directory):
+            entry_path = os.path.join(directory, entry)
+            print(entry_path)
+
+            if os.path.isdir(entry_path):
+                self._explore_and_filter_dir(entry_path)
+                if not os.listdir(entry_path) and entry != "LogicMods":
+                    os.rmdir(entry_path)
+            elif os.path.isfile(entry_path):
+                if (entry.endswith(".pak") and not entry_path.endswith(os.path.join("LogicMods", "Z_Interpose_P.pak"))
+                        and entry not in ["Backrooms-WindowsNoEditor.pak", "EscapeTheBackrooms-WindowsNoEditor.pak"]):
+                    if entry in os.listdir(self.local_mod_folder):
+                        os.remove(entry_path)
+                    else:
+                        try:
+                            os.rename(entry_path, os.path.join(self.local_mod_folder, entry))
+                        except OSError as e:
+                            if e.errno == errno.EXDEV:
+                                shutil.move(entry_path, os.path.join(self.local_mod_folder, entry))
+                            else:
+                                raise
