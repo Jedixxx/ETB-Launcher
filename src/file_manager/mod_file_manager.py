@@ -2,6 +2,7 @@ import errno
 import os
 import shutil
 import customtkinter
+from typing import List
 
 from src.core.config import Config
 
@@ -25,20 +26,12 @@ class ModFileManager:
 
     def load_local_mods(self):
         """
-        Ran on app startup to load all local mods into a "loaded_mods" list.
+        Ran on app startup or runtime to load all local mods into a "loaded_mods" list.
         """
+        self.loaded_mods.clear()
         for filename in os.listdir(self.local_mod_folder):
             mod_active = os.path.isfile(os.path.join(self.etb_mod_folder, filename))
             self.loaded_mods.append(Mod(filename, mod_active))
-
-    def load_new_mod(self, filepath: str):
-        """
-        Used during runtime to add a filepath to the local mods folder and to the "loaded_mods" list
-        :param filepath: Filepath of the mod
-        """
-        filename = os.path.basename(filepath)
-        shutil.copy2(filepath, os.path.join(self.etb_mod_folder, filename))
-        self.loaded_mods.append(Mod(filename, False))
 
     def update_mod_positions(self):
         # Creates LogicMods folder if needed
@@ -57,8 +50,6 @@ class ModFileManager:
     def _explore_and_filter_dir(self, directory: str):
         for entry in os.listdir(directory):
             entry_path = os.path.join(directory, entry)
-            print(entry_path)
-
             if os.path.isdir(entry_path):
                 self._explore_and_filter_dir(entry_path)
                 if not os.listdir(entry_path) and entry != "LogicMods":
