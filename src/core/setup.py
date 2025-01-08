@@ -15,7 +15,7 @@ class Setup:
         else:
             content_root = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
 
-        self.config_path = os.path.join(content_root, 'config/app_config.json')
+        self.config_path = os.path.join(content_root, r'config\app_config.json')
 
         registry = winreg.ConnectRegistry(None, winreg.HKEY_CURRENT_USER)
         key = winreg.OpenKey(registry, r"SOFTWARE\Valve\Steam")
@@ -72,7 +72,7 @@ class Setup:
 
     @staticmethod
     def _get_etb_installed_path(steam_path):
-        lib_folders = os.path.join(steam_path, r"steamapps/libraryfolders.vdf")
+        lib_folders = os.path.join(steam_path, r"steamapps\\libraryfolders.vdf")
         with open(lib_folders, "r") as f:
             vdf_data = vdf.load(f)
             for universe in vdf_data["libraryfolders"]:

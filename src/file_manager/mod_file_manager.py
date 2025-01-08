@@ -2,9 +2,9 @@ import errno
 import os
 import shutil
 import customtkinter
-from typing import List
 
 from src.core.config import Config
+from src.etb_version_controller.version_utils import get_game_version_from_bytes
 
 
 class Mod:
@@ -20,9 +20,14 @@ class ModFileManager:
         self.config = Config()
         self.loaded_mods = []
 
-        self.etb_mod_folder = os.path.join(self.config.config_data["paths"]["etb_installed_path"],
-                                           r"EscapeTheBackrooms\Content\Paks\LogicMods")
+        self.game_path = self.config.config_data["paths"]["etb_installed_path"]
+
         self.local_mod_folder = os.path.join(self.config.content_root, "mods")
+
+    def _get_mod_folder(self) -> str:
+        if get_game_version_from_bytes(self.game_path) == "1.21":
+            return os.path.join(self.game_path, r"Backrooms\Content\Paks\LogicMods")
+        return os.path.join(self.game_path, r"EscapeTheBackrooms\Content\Paks\LogicMods")
 
     def load_local_mods(self):
         """
@@ -30,22 +35,23 @@ class ModFileManager:
         """
         self.loaded_mods.clear()
         for filename in os.listdir(self.local_mod_folder):
-            mod_active = os.path.isfile(os.path.join(self.etb_mod_folder, filename))
+            mod_active = os.path.isfile(os.path.join(self._get_mod_folder(), filename))
             self.loaded_mods.append(Mod(filename, mod_active))
 
     def update_mod_positions(self):
+        etb_mod_folder = self._get_mod_folder()
         # Creates LogicMods folder if needed
-        if not os.path.isdir(self.etb_mod_folder):
+        if not os.path.isdir(etb_mod_folder):
+            os.mkdir(etb_mod_folder)
             print("Created LogicMods folder")
-            os.mkdir(self.etb_mod_folder)
 
         # First reset Paks folder
-        self._explore_and_filter_dir(os.path.dirname(self.etb_mod_folder))
+        self._explore_and_filter_dir(os.path.dirname(etb_mod_folder))
 
         for mod in self.loaded_mods:
             if mod.activated.get():
                 shutil.copy2(os.path.join(self.local_mod_folder, mod.filename),
-                             os.path.join(self.etb_mod_folder, mod.filename))
+                             os.path.join(etb_mod_folder, mod.filename))
 
     def _explore_and_filter_dir(self, directory: str):
         for entry in os.listdir(directory):
