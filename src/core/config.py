@@ -8,8 +8,15 @@ class Config:
     """
     A class to load and store the config and import file paths for the mod manager
     """
+    _instance = None
 
-    def __init__(self, config_path: str = 'config/app_config.json'):
+    def __new__(cls, *args, **kwargs):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+            cls._instance._config_init(*args, **kwargs)
+        return cls._instance
+
+    def _config_init(self, config_path: str = 'config/app_config.json'):
         """
         Initialise Config with a specified configuration file
 
