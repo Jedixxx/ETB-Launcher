@@ -52,7 +52,6 @@ def get_game_version_from_bytes(game_folder: str) -> Optional[str]:
 
     :param game_folder: The root folder of the game version
     :return: A string representing the match version if is found, otherwise None
-    :raises FileNotFoundError: If neither potential .pak file paths are not found
     """
 
     potential_paths = [
@@ -65,7 +64,6 @@ def get_game_version_from_bytes(game_folder: str) -> Optional[str]:
     for potential_path in potential_paths:
         if os.path.isfile(potential_path):
             pak_size = os.path.getsize(potential_path)
-            print(pak_size)
             return version_bytes_lookup.get(pak_size, None)
 
-    raise FileNotFoundError(f"Cannot locate .pak file from any expected paths: {potential_paths}")
+    return None

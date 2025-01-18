@@ -44,30 +44,32 @@ class VersionAdder:
         browse_button = customtkinter.CTkButton(add_version_popup, text="📁", width=50, height=50, font=("Arial", 30),
                                                 command=lambda: self.browse_for_version_files(version_path_entry,
                                                                                               version_entry,
-                                                                                              add_version_popup))
+                                                                                              add_version_popup,
+                                                                                              add_button))
         browse_button.place(x=400, y=20)
 
     @staticmethod
-    def browse_for_version_files(version_path_entry, version_entry, add_version_popup):
+    def browse_for_version_files(version_path_entry, version_entry, add_version_popup, add_button):
         version_path = filedialog.askdirectory()
+
+        # Brings window popup back ontop of main window
         add_version_popup.attributes('-topmost', True)
         add_version_popup.attributes('-topmost', False)
+
         if version_path:
             version_path_entry.delete(0, customtkinter.END)
             version_path_entry.insert(0, version_path)
 
             detected_version = get_game_version_from_bytes(version_path)
             if detected_version:
+                add_button.configure(text="Add Version", state="enabled")
                 version_entry.delete(0, customtkinter.END)
                 version_entry.insert(0, f"{detected_version} (Auto-detected)")
+            else:
+                add_button.configure(text="Invalid Path", state="disabled")
 
     def load_local_version(self, filepath, version, add_version_popup):
-        if not os.path.isdir(filepath):
-            return
-        if version == "":
-            return
-        if "Backrooms.exe" not in os.listdir(filepath):
-            return
+        # Local versions required to be on same drive, error-handling or support for cross drive versions should be added
         if os.path.splitdrive(self.version_loader.etb_installed_path)[0] != os.path.splitdrive(filepath)[0]:
             return
 
