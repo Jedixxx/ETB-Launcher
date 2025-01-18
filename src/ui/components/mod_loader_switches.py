@@ -5,13 +5,14 @@ from src.mod_loader_manager.ue4ss_manager import UE4SSManager
 
 
 class ModLoaderSwitches:
-    def __init__(self, master, x, y, width, height):
+    def __init__(self, ui_manager, x, y, width, height):
+        self.master = ui_manager.frame
         self.interpose_manager = InterposeManager()
         self.ue4ss_manager = UE4SSManager()
 
         self.x, self.y = x, y
 
-        self.master_widget = customtkinter.CTkFrame(master=master, width=width, height=height)
+        self.master_widget = customtkinter.CTkFrame(master=self.master, width=width, height=height)
         self.master_widget.pack_propagate(False)  # Prevent frame from resizing itself
 
         self.title = customtkinter.CTkLabel(master=self.master_widget, text="Mod Loaders",

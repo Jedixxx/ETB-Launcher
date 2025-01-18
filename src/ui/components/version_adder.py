@@ -8,12 +8,13 @@ from src.etb_version_controller.version_utils import get_game_version_from_bytes
 
 
 class VersionAdder:
-    def __init__(self, master, width, height, x, y, root):
+    def __init__(self, ui_manager, width, height, x, y, root):
+        self.master = ui_manager.frame
         self.version_loader = VersionLoader()
         self.x, self.y = x, y
 
         self.root = root
-        self.version_add_button = customtkinter.CTkButton(master=master, width=width, height=height, text="+",
+        self.version_add_button = customtkinter.CTkButton(master=self.master, width=width, height=height, text="+",
                                                           command=self.open_add_version_popup, font=("Arial", 30))
 
     def load(self):
@@ -42,7 +43,8 @@ class VersionAdder:
 
         browse_button = customtkinter.CTkButton(add_version_popup, text="📁", width=50, height=50, font=("Arial", 30),
                                                 command=lambda: self.browse_for_version_files(version_path_entry,
-                                                                                              version_entry, add_version_popup))
+                                                                                              version_entry,
+                                                                                              add_version_popup))
         browse_button.place(x=400, y=20)
 
     @staticmethod
@@ -58,7 +60,6 @@ class VersionAdder:
             if detected_version:
                 version_entry.delete(0, customtkinter.END)
                 version_entry.insert(0, f"{detected_version} (Auto-detected)")
-
 
     def load_local_version(self, filepath, version, add_version_popup):
         if not os.path.isdir(filepath):

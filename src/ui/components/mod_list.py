@@ -6,26 +6,26 @@ from src.file_manager.mod_file_manager import ModFileManager
 
 
 class ModList:
-    def __init__(self, master, scrollable_width, scrollable_height, scrollable_x, scrollable_y):
-        self.master = master
+    def __init__(self, ui_manager, scrollable_width, scrollable_height, scrollable_x, scrollable_y):
+        self.master = ui_manager.frame
         self.mod_file_manager = ModFileManager()
 
         self.scrollable_width = scrollable_width
         self.scrollable_x = scrollable_x
         self.scrollable_y = scrollable_y
 
-        self.deselect_all_button = customtkinter.CTkButton(master, width=round(scrollable_width / 6), height=25,
+        self.deselect_all_button = customtkinter.CTkButton(self.master, width=round(scrollable_width / 6), height=25,
                                                            text="Deselect All",
                                                            command=self.deselect_all)
 
-        self.refresh_button = customtkinter.CTkButton(master, width=25, height=25,
+        self.refresh_button = customtkinter.CTkButton(self.master, width=25, height=25,
                                                       text="⭮",
                                                       command=self.refresh_mod_list)
 
-        self.search_bar = customtkinter.CTkEntry(master, width=round(scrollable_width / 1.5), height=25,
+        self.search_bar = customtkinter.CTkEntry(self.master, width=round(scrollable_width / 1.5), height=25,
                                                  placeholder_text="Search for Mod")
 
-        self.scrollable_mod_list = customtkinter.CTkScrollableFrame(master, width=scrollable_width,
+        self.scrollable_mod_list = customtkinter.CTkScrollableFrame(self.master, width=scrollable_width,
                                                                     height=scrollable_height)
 
         self.mod_file_manager.load_local_mods()

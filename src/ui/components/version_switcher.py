@@ -4,14 +4,15 @@ from src.etb_version_controller.version_manager import VersionManager
 
 
 class VersionSwitcher:
-    def __init__(self, master, width, height, x, y, launch_button_controller):
+    def __init__(self, ui_manager, width, height, x, y):
+        self.master = ui_manager.frame
         self.version_manager = VersionManager()
-        self.launch_button_controller = launch_button_controller
+        self.launch_button_controller = ui_manager.launch_button_controller
 
         self.x, self.y = x, y
         self.available_versions = self.version_manager.get_available_versions()
 
-        self.version_option_menu = customtkinter.CTkOptionMenu(master=master, width=width, height=height,
+        self.version_option_menu = customtkinter.CTkOptionMenu(master=self.master, width=width, height=height,
                                                                values=self._format_version_list(
                                                                    self.available_versions),
                                                                command=self.switch_version)
