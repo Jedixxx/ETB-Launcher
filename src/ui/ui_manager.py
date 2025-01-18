@@ -16,7 +16,7 @@ class UIManager:
 
         self.root = customtkinter.CTk()
         self.root.geometry(self.config.config_data["ui"]["dimensions"])
-        self.root.title("Jedixxx's Mod Manager")
+        self.root.title("Jedixxx's Mod Manager v0.5")
         self.root.resizable(False, False)
         self.frame = customtkinter.CTkFrame(master=self.root)
         self.updating_objects = []
