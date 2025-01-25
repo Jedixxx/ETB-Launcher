@@ -18,6 +18,9 @@ class UE4SSManager:
         self.ue4ss_enabled = customtkinter.BooleanVar(
             value=os.path.isfile(os.path.join(self.etb_win64_path, "dwmapi.dll")))
 
+    def update_ue4ss_enabled(self):
+        self.ue4ss_enabled.set(os.path.isfile(os.path.join(self.etb_win64_path, "dwmapi.dll")))
+
     def switch(self):
         ue4ss_active = os.path.isfile(os.path.join(self.etb_win64_path, "dwmapi.dll"))
         switch_enabled = self.ue4ss_enabled.get()

@@ -18,8 +18,18 @@ class ModLoaderSwitches:
         self.title = customtkinter.CTkLabel(master=self.master_widget, text="Mod Loaders",
                                             font=("Arial", 25, "bold"))
 
-        self.ue4ss_switch = customtkinter.CTkSwitch(master=self.master_widget, text="UE4SS", font=("Arial", 20), command=self.ue4ss_manager.switch, variable=self.ue4ss_manager.ue4ss_enabled, state="normal" if self.ue4ss_manager.ue4ss_locally_installed else "disabled")
-        self.interpose_switch = customtkinter.CTkSwitch(master=self.master_widget, text="Interpose", font=("Arial", 20), command=self.interpose_manager.switch, variable=self.interpose_manager.interpose_enabled, state="normal" if self.interpose_manager.interpose_locally_installed else "disabled")
+        self.ue4ss_switch = customtkinter.CTkSwitch(master=self.master_widget, text="UE4SS", font=("Arial", 20),
+                                                    command=self.ue4ss_manager.switch,
+                                                    variable=self.ue4ss_manager.ue4ss_enabled,
+                                                    state="normal" if self.ue4ss_manager.ue4ss_locally_installed else "disabled")
+        self.interpose_switch = customtkinter.CTkSwitch(master=self.master_widget, text="Interpose", font=("Arial", 20),
+                                                        command=self.interpose_manager.switch,
+                                                        variable=self.interpose_manager.interpose_enabled,
+                                                        state="normal" if self.interpose_manager.interpose_locally_installed else "disabled")
+
+    def update_switch_states(self):
+        self.interpose_manager.update_interpose_enabled()
+        self.ue4ss_manager.update_ue4ss_enabled()
 
     def load(self):
         self.master_widget.place(x=self.x, y=self.y)

@@ -37,6 +37,9 @@ class UIManager:
                                                                text_size=40)
         self.updating_objects.append(self.launch_button_controller)
 
+        self.mod_loader_switches_controller = mod_loader_switches.ModLoaderSwitches(ui_manager=self, x=708, y=660,
+                                                                                    width=250, height=150)
+
         self.version_switcher_controller = version_switcher.VersionSwitcher(ui_manager=self, width=340, height=50,
                                                                             x=1060,
                                                                             y=600)
@@ -46,8 +49,7 @@ class UIManager:
                                                                    y=600,
                                                                    root=self.root)
 
-        self.mod_loader_switches_controller = mod_loader_switches.ModLoaderSwitches(ui_manager=self, x=708, y=660,
-                                                                                    width=250, height=150)
+
 
     def update_loop(self):
         for object_to_update in self.updating_objects:
