@@ -52,8 +52,6 @@ class UIManager:
                                                                    y=600,
                                                                    root=self.root)
 
-
-
     def update_loop(self):
         for object_to_update in self.updating_objects:
             object_to_update.update_function()

@@ -1,5 +1,3 @@
-import os
-
 import customtkinter
 
 from src.file_manager.mod_file_manager import ModFileManager
