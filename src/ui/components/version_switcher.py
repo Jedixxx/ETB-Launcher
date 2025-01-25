@@ -6,6 +6,7 @@ from src.etb_version_controller.version_manager import VersionManager
 class VersionSwitcher:
     def __init__(self, ui_manager, width, height, x, y):
         self.master = ui_manager.frame
+        self.mod_switches = ui_manager.mod_loader_switches_controller
         self.version_manager = VersionManager()
         self.launch_button_controller = ui_manager.launch_button_controller
 
@@ -31,9 +32,11 @@ class VersionSwitcher:
     def switch_version(self, formatted_target_version):
         if self.launch_button_controller.game_running():
             self.version_option_menu.set("Please close the game before switching version")
+            return
 
         target_version = formatted_target_version.replace("Version ", "")
         self.version_manager.switch_version(target_version=target_version)
+        self.mod_switches.update_switch_states()
 
     @staticmethod
     def _format_version_list(version_list: list[str]) -> list[str]:

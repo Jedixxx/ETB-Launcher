@@ -29,6 +29,9 @@ class UIManager:
         customtkinter.CTkLabel(master=self.frame, text="Jedixxx's Mod Manager",
                                font=("Arial", 30, "bold")).pack(pady=12, padx=10)
 
+        self.mod_loader_switches_controller = mod_loader_switches.ModLoaderSwitches(ui_manager=self, x=708, y=660,
+                                                                                    width=250, height=150)
+
         self.mod_list_controller = mod_list.ModList(ui_manager=self, scrollable_width=600, scrollable_height=700,
                                                     scrollable_x=50, scrollable_y=100)
         self.updating_objects.append(self.mod_list_controller)
@@ -46,8 +49,7 @@ class UIManager:
                                                                    y=600,
                                                                    root=self.root)
 
-        self.mod_loader_switches_controller = mod_loader_switches.ModLoaderSwitches(ui_manager=self, x=708, y=660,
-                                                                                    width=250, height=150)
+
 
     def update_loop(self):
         for object_to_update in self.updating_objects:

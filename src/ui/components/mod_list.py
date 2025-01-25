@@ -8,6 +8,7 @@ from src.file_manager.mod_file_manager import ModFileManager
 class ModList:
     def __init__(self, ui_manager, scrollable_width, scrollable_height, scrollable_x, scrollable_y):
         self.master = ui_manager.frame
+        self.mod_switches = ui_manager.mod_loader_switches_controller
         self.mod_file_manager = ModFileManager()
 
         self.scrollable_width = scrollable_width
@@ -52,6 +53,7 @@ class ModList:
             mod_checkbox.pack(anchor="w", pady=6)
 
     def refresh_mod_list(self):
+        self.mod_switches.update_switch_states()
         for mod_info in self.mod_checkbox_pairs:
             _, mod_checkbox = mod_info
             mod_checkbox.pack_forget()

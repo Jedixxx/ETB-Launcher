@@ -28,3 +28,6 @@ class InterposeManager:
             shutil.copy2(self.local_interpose_path, self.interpose_game_path)
         elif not self.interpose_enabled.get() and interpose_active:
             os.remove(self.interpose_game_path)
+
+    def update_interpose_enabled(self):
+        self.interpose_enabled.set(os.path.isfile(self.interpose_game_path))
