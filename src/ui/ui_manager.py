@@ -1,5 +1,5 @@
 import customtkinter
-from src.ui.components import launch_game, version_switcher, version_adder, mod_list, mod_loader_switches
+from src.ui.components import launch_game, version_switcher, version_adder, mod_list, mod_loader_switches, quick_reset
 from src.core.config import Config
 
 
@@ -52,6 +52,10 @@ class UIManager:
                                                                    y=600,
                                                                    root=self.root)
 
+        self.quick_reset_controller = quick_reset.QuickResetUI(ui_manager=self, x=1000, y=70,
+                                                               width=400, height=200)
+        self.updating_objects.append(self.quick_reset_controller)
+
     def update_loop(self):
         for object_to_update in self.updating_objects:
             object_to_update.update_function()
@@ -63,3 +67,4 @@ class UIManager:
         self.launch_button_controller.load()
         self.version_switcher_controller.load()
         self.mod_loader_switches_controller.load()
+        self.quick_reset_controller.load()
